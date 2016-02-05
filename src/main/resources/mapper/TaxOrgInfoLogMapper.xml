@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tax.dao.TaxOrgInfoLogMapper" >
+  <resultMap id="BaseResultMap" type="com.tax.model.DO.TaxOrgInfoLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tax_code" property="taxCode" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="tax_org" property="taxOrg" jdbcType="VARCHAR" />
+    <result column="regType" property="regtype" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="legal_person" property="legalPerson" jdbcType="VARCHAR" />
+    <result column="m_org" property="mOrg" jdbcType="VARCHAR" />
+    <result column="c_org" property="cOrg" jdbcType="VARCHAR" />
+    <result column="charge_code" property="chargeCode" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tax_code, name, address, tax_org, regType, industry, tel, legal_person, m_org, 
+    c_org, charge_code, mobile, addtime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tax_org_info_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tax_org_info_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tax.model.DO.TaxOrgInfoLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tax_org_info_log (id, tax_code, name, 
+      address, tax_org, regType, 
+      industry, tel, legal_person, 
+      m_org, c_org, charge_code, 
+      mobile, addtime, updatetime
+      )
+    values (#{id,jdbcType=INTEGER}, #{taxCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{taxOrg,jdbcType=VARCHAR}, #{regtype,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, 
+      #{mOrg,jdbcType=VARCHAR}, #{cOrg,jdbcType=VARCHAR}, #{chargeCode,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tax.model.DO.TaxOrgInfoLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tax_org_info_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="taxCode != null" >
+        tax_code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="taxOrg != null" >
+        tax_org,
+      </if>
+      <if test="regtype != null" >
+        regType,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="legalPerson != null" >
+        legal_person,
+      </if>
+      <if test="mOrg != null" >
+        m_org,
+      </if>
+      <if test="cOrg != null" >
+        c_org,
+      </if>
+      <if test="chargeCode != null" >
+        charge_code,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="taxCode != null" >
+        #{taxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="taxOrg != null" >
+        #{taxOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="regtype != null" >
+        #{regtype,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null" >
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="mOrg != null" >
+        #{mOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="cOrg != null" >
+        #{cOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeCode != null" >
+        #{chargeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tax.model.DO.TaxOrgInfoLog" >
+    update tax_org_info_log
+    <set >
+      <if test="taxCode != null" >
+        tax_code = #{taxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="taxOrg != null" >
+        tax_org = #{taxOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="regtype != null" >
+        regType = #{regtype,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null" >
+        legal_person = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="mOrg != null" >
+        m_org = #{mOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="cOrg != null" >
+        c_org = #{cOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeCode != null" >
+        charge_code = #{chargeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tax.model.DO.TaxOrgInfoLog" >
+    update tax_org_info_log
+    set tax_code = #{taxCode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      tax_org = #{taxOrg,jdbcType=VARCHAR},
+      regType = #{regtype,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      legal_person = #{legalPerson,jdbcType=VARCHAR},
+      m_org = #{mOrg,jdbcType=VARCHAR},
+      c_org = #{cOrg,jdbcType=VARCHAR},
+      charge_code = #{chargeCode,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="insertTaxOrgInfo">
+  	insert into tax_org_info_log(
+	    tax_code,name,address,tax_org,regtype,
+	    industry,tel,legal_person,m_org,c_org,
+	    charge_code,mobile,addtime,updatetime
+	    )
+      select tax_code,name,address,tax_org,regtype,
+      industry,tel,legal_person,m_org,c_org,
+      charge_code,mobile,addtime,updatetime
+      from tax_org_info where tax_code= #{taxCode}
+  </insert>
+  
+  
+</mapper>

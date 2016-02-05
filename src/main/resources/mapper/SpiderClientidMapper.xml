@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tax.dao.SpiderClientidMapper" >
+  <resultMap id="BaseResultMap" type="com.tax.model.DO.SpiderClientid" >
+    <id column="clientId" property="clientid" jdbcType="VARCHAR" />
+    <result column="password_client" property="passwordClient" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    clientId, password_client, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from spider_clientid
+    where clientId = #{clientid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from spider_clientid
+    where clientId = #{clientid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tax.model.DO.SpiderClientid" >
+    insert into spider_clientid (clientId, password_client, remark
+      )
+    values (#{clientid,jdbcType=VARCHAR}, #{passwordClient,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tax.model.DO.SpiderClientid" >
+    insert into spider_clientid
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clientid != null" >
+        clientId,
+      </if>
+      <if test="passwordClient != null" >
+        password_client,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clientid != null" >
+        #{clientid,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordClient != null" >
+        #{passwordClient,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tax.model.DO.SpiderClientid" >
+    update spider_clientid
+    <set >
+      <if test="passwordClient != null" >
+        password_client = #{passwordClient,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where clientId = #{clientid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tax.model.DO.SpiderClientid" >
+    update spider_clientid
+    set password_client = #{passwordClient,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where clientId = #{clientid,jdbcType=VARCHAR}
+  </update>
+</mapper>

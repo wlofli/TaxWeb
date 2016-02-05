@@ -1,0 +1,48 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.ts{
+	display:none;
+	height:auto;
+	width:80%;
+	position:absolute;
+	top:50%;
+	left:10%;
+	margin-top:-100px;
+	background:#fff;
+	z-index:2;
+	border:1px #aaa solid;
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	overflow:hidden;
+	}
+.ts p.tswz{
+	height:auto;
+	width:90%; 
+	line-height:35px;
+	margin:10px auto;
+	text-align:center;
+	font-size:16px;
+	padding-bottom:10px;
+	border-bottom:1px #aaa solid;}
+.ts .tj_btn a{
+	display:block;
+	width:100%;
+	height:35px; 
+	color:#00a0e9;
+	font-size:16px;
+	text-align:center;
+	outline:none;}
+#over{
+	display:none;
+	height:100%;
+	width:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	opacity:0.5;
+	filter:alpha(opacity=80);	
+	z-index:1;
+	background: silver;}

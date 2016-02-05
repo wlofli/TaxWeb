@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tax.dao.SpiderTaxTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.tax.model.DO.SpiderTaxTask" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="taxCode" property="taxcode" jdbcType="VARCHAR" />
+    <result column="taxPwd" property="taxpwd" jdbcType="VARCHAR" />
+    <result column="vpdnUser" property="vpdnuser" jdbcType="VARCHAR" />
+    <result column="vpdnPwd" property="vpdnpwd" jdbcType="VARCHAR" />
+    <result column="startDate" property="startdate" jdbcType="VARCHAR" />
+    <result column="endDate" property="enddate" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="msg" property="msg" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="clientId" property="clientid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, taxCode, taxPwd, vpdnUser, vpdnPwd, startDate, endDate, status, msg, updateTime, 
+    addtime, clientId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from spider_tax_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from spider_tax_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tax.model.DO.SpiderTaxTask" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into spider_tax_task (id, taxCode, taxPwd, 
+      vpdnUser, vpdnPwd, startDate, 
+      endDate, status, msg, 
+      updateTime, addtime, clientId
+      )
+    values (#{id,jdbcType=INTEGER}, #{taxcode,jdbcType=VARCHAR}, #{taxpwd,jdbcType=VARCHAR}, 
+      #{vpdnuser,jdbcType=VARCHAR}, #{vpdnpwd,jdbcType=VARCHAR}, #{startdate,jdbcType=VARCHAR}, 
+      #{enddate,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{msg,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{addtime,jdbcType=TIMESTAMP}, #{clientid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tax.model.DO.SpiderTaxTask" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into spider_tax_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="taxcode != null" >
+        taxCode,
+      </if>
+      <if test="taxpwd != null" >
+        taxPwd,
+      </if>
+      <if test="vpdnuser != null" >
+        vpdnUser,
+      </if>
+      <if test="vpdnpwd != null" >
+        vpdnPwd,
+      </if>
+      <if test="startdate != null" >
+        startDate,
+      </if>
+      <if test="enddate != null" >
+        endDate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="msg != null" >
+        msg,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="clientid != null" >
+        clientId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="taxcode != null" >
+        #{taxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpwd != null" >
+        #{taxpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="vpdnuser != null" >
+        #{vpdnuser,jdbcType=VARCHAR},
+      </if>
+      <if test="vpdnpwd != null" >
+        #{vpdnpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=VARCHAR},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientid != null" >
+        #{clientid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tax.model.DO.SpiderTaxTask" >
+    update spider_tax_task
+    <set >
+      <if test="taxcode != null" >
+        taxCode = #{taxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpwd != null" >
+        taxPwd = #{taxpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="vpdnuser != null" >
+        vpdnUser = #{vpdnuser,jdbcType=VARCHAR},
+      </if>
+      <if test="vpdnpwd != null" >
+        vpdnPwd = #{vpdnpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        startDate = #{startdate,jdbcType=VARCHAR},
+      </if>
+      <if test="enddate != null" >
+        endDate = #{enddate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="msg != null" >
+        msg = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clientid != null" >
+        clientId = #{clientid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tax.model.DO.SpiderTaxTask" >
+    update spider_tax_task
+    set taxCode = #{taxcode,jdbcType=VARCHAR},
+      taxPwd = #{taxpwd,jdbcType=VARCHAR},
+      vpdnUser = #{vpdnuser,jdbcType=VARCHAR},
+      vpdnPwd = #{vpdnpwd,jdbcType=VARCHAR},
+      startDate = #{startdate,jdbcType=VARCHAR},
+      endDate = #{enddate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      msg = #{msg,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      clientId = #{clientid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="isExistSpiderTask" resultType="int" parameterType="com.tax.model.DO.SpiderTaxTask">
+  	SELECT
+  		count(*)
+  	FROM
+  		spider_tax_task
+  	WHERE
+  		taxCode = #{taxcode} AND 
+  		taxPwd  = #{taxpwd} AND
+  		vpdnUser = #{vpdnuser} AND
+  		vpdnPwd = #{vpdnpwd}
+  
+  
+  </select>
+  
+  <select id="getMsg" resultType="string" parameterType="com.tax.model.DO.SpiderTaxTask">
+  	SELECT  
+  		msg
+	FROM 
+		spider_tax_task
+	WHERE 
+		taxCode = #{taxcode} AND 
+  		taxPwd  = #{taxpwd} AND
+  		vpdnUser = #{vpdnuser} AND
+  		vpdnPwd = #{vpdnpwd}
+  </select>
+  <select id="getStatus" resultType="int" parameterType="com.tax.model.DO.SpiderTaxTask">
+  	SELECT  
+  		status
+	FROM 
+		spider_tax_task
+	WHERE 
+		taxCode = #{taxcode} AND 
+  		taxPwd  = #{taxpwd} AND
+  		vpdnUser = #{vpdnuser} AND
+  		vpdnPwd = #{vpdnpwd}
+  </select>
+  
+  
+  
+  <select id="getReadyTask" resultMap="BaseResultMap">
+  	SELECT 
+  		id,
+  	    taxCode,
+  	    taxPwd,
+  	    vpdnUser,
+  	    vpdnPwd,
+  	    startDate,
+  	    endDate,
+  	    status,
+  	    clientid,
+  	    addtime,
+  	    updateTime 
+  	FROM 
+  		spider_tax_task 
+  	WHERE status=0 
+  	ORDER BY id 
+  	asc limit 0,1
+  
+  </select>
+  
+  <update id="updateTask" >
+  	update spider_tax_task set clientid= #{clientId}, status = 1 where id = #{id} and status=0
+  
+  </update>
+  
+  <update id="resetTask">
+  	UPDATE
+  		spider_tax_task 
+  	SET
+  		startDate = #{startDate},
+  		endDate = #{endDate},
+  		status = 0,
+  		updateTime = now()
+  	WHERE
+  		status = 100
+  </update>
+  
+  
+  <select id="getTaskByAccount" resultMap="BaseResultMap">
+  	SELECT  *
+	FROM spider_tax_task
+	WHERE  taxCode = #{taxCode}
+		AND taxPwd = #{taxPwd}
+		AND vpdnUser = #{vpdnUser}
+		AND vpdnPwd = #{vpdnPwd}
+  </select>
+  
+  
+</mapper>

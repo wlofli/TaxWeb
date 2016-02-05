@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+                        http://www.springframework.org/schema/context  
+                        http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+                        http://www.springframework.org/schema/mvc  
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.tax" />
+	
+	<!-- 引入配置文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+ 			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:config.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName">
+			<value>${driver}</value>
+		</property>
+		<property name="username">
+			<value>${username}</value>
+		</property>
+		<property name="url">
+			<value>${url}</value>
+		</property>
+		<property name="password">
+			<value>${password}</value>
+		</property>
+		<property name="maxActive">
+			<value>${maxActive}</value>
+		</property>
+		<property name="initialSize">
+			<value>${initialSize}</value>
+		</property>
+		<!-- if no available connections can borrow after 5 seconds ,will throw 
+			exception -->
+		<property name="maxWait">
+			<value>5000</value>
+		</property>
+		<property name="maxIdle">
+			<value>${maxIdle}</value>
+		</property>
+		<property name="minIdle">
+			<value>1</value>
+		</property>
+		<!-- when connection not correct closed after used,this can close connection 
+			when (getNumIdle() < 2) and (getNumActive() > getMaxActive() - 3) -->
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>180</value>
+		</property>
+		<property name="logAbandoned">
+			<value>true</value>
+		</property>
+		<!-- EvictionRuns per 60000 milliseconds -->
+		<property name="timeBetweenEvictionRunsMillis">
+			<value>60000</value>
+		</property>
+		<!-- if connections idle time bigger than half an hour -->
+		<property name="minEvictableIdleTimeMillis">
+			<value>1800000</value>
+		</property>
+	</bean>
+
+	<!-- 配置事务管理 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	
+	<!-- 配置事务特性 -->
+<!-- 	<tx:advice id="txAdvice" transaction-manager="transactionManager"> -->
+<!-- 		<tx:attributes> -->
+<!-- 			<tx:method name="*" isolation="READ_COMMITTED" propagation="REQUIRED"  -->
+<!-- 				rollback-for="java.lang.RuntionException" /> -->
+<!-- 			<tx:method name="add*" propagation="REQUIRED" /> -->
+<!-- 			<tx:method name="save*" propagation="REQUIRED" /> -->
+<!-- 			<tx:method name="del*" propagation="REQUIRED" /> -->
+<!-- 			<tx:method name="update*" propagation="REQUIRED" /> -->
+<!-- 			<tx:method name="do*" propagation="REQUIRED" /> -->
+<!-- 			<tx:method name="insert*" propagation="REQUIRED" /> -->
+<!-- 			<tx:method name="publish*" propagation="REQUIRED" /> -->
+<!-- 			<tx:method name="forbid*" propagation="REQUIRED" /> -->
+<!-- 			<tx:method name="*" read-only="true" /> -->
+<!-- 		</tx:attributes> -->
+<!-- 	</tx:advice> -->
+	
+	<!-- 配置事务切入点和面 -->
+<!-- 	<aop:config> -->
+<!-- 		<aop:pointcut id="allServiceMethod" -->
+<!-- 			expression="execution(* com.tax.service..*.*(..))" /> -->
+<!-- 		<aop:advisor advice-ref="txAdvice" pointcut-ref="allServiceMethod" /> -->
+<!-- 	</aop:config> -->
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:/mapper/*.xml</value>
+			</list>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 有了这个后就不用每个Mapper都去定义一下了，会全部自动定义好 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.tax.dao" />
+<!-- 		<property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
+	</bean>
+
+</beans>

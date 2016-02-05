@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tax.dao.ProfitstatementMapper">
+	<resultMap id="BaseResultMap" type="com.tax.model.DO.Profitstatement">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="tax_code" property="taxCode" jdbcType="VARCHAR" />
+		<result column="report_date" property="reportDate" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.tax.model.DO.Profitstatement"
+		extends="BaseResultMap">
+		<result column="report_content" property="reportContent"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, tax_code, report_date
+	</sql>
+	<sql id="Blob_Column_List">
+		report_content
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from profitstatement
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from profitstatement
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.tax.model.DO.Profitstatement">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into profitstatement (id, tax_code, report_date,
+		report_content)
+		values (#{id,jdbcType=INTEGER}, #{taxCode,jdbcType=VARCHAR},
+		#{reportDate,jdbcType=INTEGER},
+		#{reportContent,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.tax.model.DO.Profitstatement">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into profitstatement
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			<if test="taxCode != null">
+				tax_code,
+			</if>
+			<if test="reportDate != null">
+				report_date,
+			</if>
+			<if test="reportContent != null">
+				report_content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id,jdbcType=INTEGER},
+			<if test="taxCode != null">
+				#{taxCode,jdbcType=VARCHAR},
+			</if>
+			<if test="reportDate != null">
+				#{reportDate,jdbcType=INTEGER},
+			</if>
+			<if test="reportContent != null">
+				#{reportContent,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.tax.model.DO.Profitstatement">
+		update profitstatement
+		<set>
+			<if test="taxCode != null">
+				tax_code = #{taxCode,jdbcType=VARCHAR},
+			</if>
+			<if test="reportDate != null">
+				report_date = #{reportDate,jdbcType=INTEGER},
+			</if>
+			<if test="reportContent != null">
+				report_content = #{reportContent,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tax.model.DO.Profitstatement">
+		update profitstatement
+		set tax_code = #{taxCode,jdbcType=VARCHAR},
+		report_date = #{reportDate,jdbcType=INTEGER},
+		report_content = #{reportContent,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.tax.model.DO.Profitstatement">
+		update profitstatement
+		set tax_code = #{taxCode,jdbcType=VARCHAR},
+		report_date = #{reportDate,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="getLast3MonthProfitByTaxCode" resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM
+		profitstatement
+		WHERE
+		tax_code = #{taxCode} 
+		AND <![CDATA[report_date >= ]]> #{startDate} 
+		AND <![CDATA[report_date <= ]]> #{endDate}
+		ORDER BY
+		report_date
+		DESC
+	</select>
+
+	<select id="getProfitByYear" resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM
+		profitstatement
+		WHERE
+		tax_code = #{taxCode} AND
+		report_date like concat(#{year} , '%')
+		ORDER BY
+		report_date
+		DESC
+	</select>
+
+	<select id="getProfitstatementByTaxCode" resultMap="ResultMapWithBLOBs">
+		SELECT
+		*
+		FROM
+		profitstatement
+		WHERE
+		tax_code = #{taxCode} AND
+		report_date like concat(#{date} , '%')
+	</select>
+	
+	<select id="getProfitByReportDate" resultMap="BaseResultMap">
+		select * from profitstatement where tax_code= #{taxCode} and report_date=#{reprotDate}
+	</select>
+
+
+
+</mapper>

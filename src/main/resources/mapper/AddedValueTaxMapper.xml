@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tax.dao.AddedValueTaxMapper" >
+  <resultMap id="BaseResultMap" type="com.tax.model.DO.AddedValueTax" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tax_code" property="taxCode" jdbcType="VARCHAR" />
+    <result column="startDate" property="startdate" jdbcType="INTEGER" />
+    <result column="endDate" property="enddate" jdbcType="INTEGER" />
+    <result column="declareDate" property="declaredate" jdbcType="INTEGER" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="amount_tax" property="amountTax" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tax_code, startDate, endDate, declareDate, addtime, amount_tax
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from added_value_tax
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from added_value_tax
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tax.model.DO.AddedValueTax" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into added_value_tax (id, tax_code, startDate, 
+      endDate, declareDate, addtime, 
+      amount_tax)
+    values (#{id,jdbcType=INTEGER}, #{taxCode,jdbcType=VARCHAR}, #{startdate,jdbcType=INTEGER}, 
+      #{enddate,jdbcType=INTEGER}, #{declaredate,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{amountTax,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tax.model.DO.AddedValueTax" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into added_value_tax
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="taxCode != null" >
+        tax_code,
+      </if>
+      <if test="startdate != null" >
+        startDate,
+      </if>
+      <if test="enddate != null" >
+        endDate,
+      </if>
+      <if test="declaredate != null" >
+        declareDate,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="amountTax != null" >
+        amount_tax,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="taxCode != null" >
+        #{taxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=INTEGER},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=INTEGER},
+      </if>
+      <if test="declaredate != null" >
+        #{declaredate,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amountTax != null" >
+        #{amountTax,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tax.model.DO.AddedValueTax" >
+    update added_value_tax
+    <set >
+      <if test="taxCode != null" >
+        tax_code = #{taxCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        startDate = #{startdate,jdbcType=INTEGER},
+      </if>
+      <if test="enddate != null" >
+        endDate = #{enddate,jdbcType=INTEGER},
+      </if>
+      <if test="declaredate != null" >
+        declareDate = #{declaredate,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amountTax != null" >
+        amount_tax = #{amountTax,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tax.model.DO.AddedValueTax" >
+    update added_value_tax
+    set tax_code = #{taxCode,jdbcType=VARCHAR},
+      startDate = #{startdate,jdbcType=INTEGER},
+      endDate = #{enddate,jdbcType=INTEGER},
+      declareDate = #{declaredate,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      amount_tax = #{amountTax,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getAddedValueLastThreeMonth" resultMap="BaseResultMap">
+  	SELECT 
+  		*
+  	FROM
+  		added_value_tax
+  	WHERE
+  		tax_code = #{taxCode} AND startDate >= #{startDate} AND endDate <![CDATA[ <= ]]> #{endDate}
+  	ORDER BY
+  		startDate DESC
+  	LIMIT
+  		#{pageNo}, #{pageSize}	
+  	
+  </select>
+  
+  
+  <select id="getAddedValueByYear" resultMap="BaseResultMap">
+  	SELECT
+  		*
+  	FROM
+  		added_value_tax
+  	WHERE
+  		tax_code = #{taxCode} and startDate LIKE concat(#{year} , '%')
+  	ORDER BY
+  		startDate DESC
+  	LIMIT
+  		#{pageNo}, #{pageSize}
+  </select>
+  
+  <select id="getAddedValueByTaxCode" resultMap="BaseResultMap">
+  	select * from added_value_tax where tax_code= #{taxCode} and declareDate= #{declareDate}
+  </select>
+  
+  
+</mapper>
